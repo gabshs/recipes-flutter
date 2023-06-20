@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Recipes',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        fontFamily: 'EBGaramond',
         useMaterial3: true,
       ),
       home: const CategoriesScreen(),
