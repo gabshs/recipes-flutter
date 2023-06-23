@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/data/dummy_data.dart';
 import 'package:recipes/screens/categories_screen.dart';
+import 'package:recipes/screens/category_meals_screen.dart';
+import 'package:recipes/utils/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final meals = dummyMeals;
+
     return MaterialApp(
       title: 'Flutter Recipes',
       theme: ThemeData(
@@ -18,7 +23,13 @@ class MyApp extends StatelessWidget {
         fontFamily: 'EBGaramond',
         useMaterial3: true,
       ),
-      home: const CategoriesScreen(),
+      initialRoute: AppRoutes.home,
+      routes: {
+        AppRoutes.home: (_) => const CategoriesScreen(),
+        AppRoutes.categoryMeals: (_) => CategoryMealsScreen(
+              meals: meals,
+            )
+      },
     );
   }
 }
