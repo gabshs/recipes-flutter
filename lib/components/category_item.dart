@@ -16,9 +16,11 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => _selectCategory(context),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -32,31 +34,14 @@ class CategoryItem extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                width: 160,
-                height: 45,
-                color: Colors.black45,
-                child: Text(
-                  category.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
-                  ),
-                ),
-              ),
+          Text(
+            category.title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Nunito',
             ),
-          )
+          ),
         ],
       ),
     );
