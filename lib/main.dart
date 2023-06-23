@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/data/dummy_data.dart';
-import 'package:recipes/screens/categories_screen.dart';
 import 'package:recipes/screens/category_meals_screen.dart';
+import 'package:recipes/screens/tab_screen.dart';
 import 'package:recipes/utils/app_routes.dart';
 
 void main() {
@@ -19,13 +19,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Recipes',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         fontFamily: 'EBGaramond',
         useMaterial3: true,
       ),
       initialRoute: AppRoutes.home,
       routes: {
-        AppRoutes.home: (_) => const CategoriesScreen(),
+        AppRoutes.home: (_) => const TabScreen(),
         AppRoutes.categoryMeals: (_) => CategoryMealsScreen(
               meals: meals,
             )
