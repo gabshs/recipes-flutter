@@ -41,6 +41,7 @@ class CategoryMealsScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final meal = categoryMeals[index];
                   return Card(
+                    margin: const EdgeInsets.only(bottom: 20),
                     elevation: 5,
                     child: Container(
                       decoration: BoxDecoration(
@@ -77,6 +78,7 @@ class CategoryMealsScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Row(
