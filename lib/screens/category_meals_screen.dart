@@ -18,6 +18,8 @@ class CategoryMealsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(category.title),
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         color: Colors.white,
