@@ -12,7 +12,10 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _screens = [CategoriesScreen(), FavoriteScreen()];
+  static const List<Map<String, dynamic>> _screens = [
+    {"title": "Cardápio", "screen": CategoriesScreen()},
+    {"title": "Favoritos", "screen": FavoriteScreen()},
+  ];
 
   _selectScreen(int index) {
     setState(() {
@@ -28,9 +31,9 @@ class _TabScreenState extends State<TabScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        title: const Text('Cardápio'),
+        title: Text(_screens[_selectedIndex]["title"]),
       ),
-      body: _screens[_selectedIndex],
+      body: _screens[_selectedIndex]["screen"],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         iconSize: 24,
