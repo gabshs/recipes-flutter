@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:recipes/models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  const MealDetailScreen({super.key});
+  final bool Function(Meal) isFavoriteFood;
+  final Function(Meal) onToggleFavorite;
+
+  const MealDetailScreen({
+    super.key,
+    required this.isFavoriteFood,
+    required this.onToggleFavorite,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +22,16 @@ class MealDetailScreen extends StatelessWidget {
           iconTheme: const IconThemeData(
               color: Colors.white,
               shadows: [Shadow(color: Colors.black, blurRadius: 15)]),
+          actions: [
+            IconButton(
+              onPressed: () {
+                onToggleFavorite(meal);
+              },
+              icon: isFavoriteFood(meal)
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border),
+            )
+          ],
         ),
         extendBodyBehindAppBar: true,
         body: Column(
@@ -45,119 +62,116 @@ class MealDetailScreen extends StatelessWidget {
                               topLeft: Radius.circular(50),
                               topRight: Radius.circular(50))),
                       child: SingleChildScrollView(
-                        child: Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Column(
-                                    children: [
-                                      const Icon(
-                                        Icons.access_time,
-                                        size: 40,
-                                      ),
-                                      Text(
-                                        '${meal.duration} minutos',
-                                        style: const TextStyle(
-                                            fontFamily: 'Nunito', fontSize: 12),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      const Icon(
-                                        Icons.signal_cellular_alt,
-                                        size: 40,
-                                      ),
-                                      Text(
-                                        meal.complexityText,
-                                        style: const TextStyle(
-                                            fontFamily: 'Nunito', fontSize: 12),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Text(
-                                meal.title,
-                                style: const TextStyle(
-                                    fontSize: 36, fontWeight: FontWeight.bold),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 34),
-                                child: Text(
-                                  'Ingredientes',
-                                  style: TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    const Icon(
+                                      Icons.timer_outlined,
+                                      size: 40,
+                                    ),
+                                    Text(
+                                      '${meal.duration} minutos',
+                                      style: const TextStyle(
+                                          fontFamily: 'Nunito', fontSize: 12),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    const Icon(
+                                      Icons.bar_chart_rounded,
+                                      size: 40,
+                                    ),
+                                    Text(
+                                      meal.complexityText,
+                                      style: const TextStyle(
+                                          fontFamily: 'Nunito', fontSize: 12),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Text(
+                              meal.title,
+                              style: const TextStyle(
+                                  fontSize: 36, fontWeight: FontWeight.bold),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 34),
+                              child: Text(
+                                'Ingredientes',
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
                               ),
-                              ...meal.ingredients
-                                  .map((ingredient) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 10,
-                                              height: 10,
-                                              margin: const EdgeInsets.only(
-                                                  right: 10),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: Colors.red,
-                                              ),
+                            ),
+                            ...meal.ingredients
+                                .map((ingredient) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 10,
+                                            height: 10,
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.red,
                                             ),
-                                            Text(
-                                              ingredient,
-                                              style: const TextStyle(
-                                                fontFamily: 'Nunito',
-                                                fontSize: 18,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ))
-                                  .toList(),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  'Modo de Preparo',
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              ...meal.steps
-                                  .asMap()
-                                  .keys
-                                  .toList()
-                                  .map((index) => Container(
-                                        width: 300,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Text(
-                                          '${index + 1}. ${meal.steps[index]}',
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                            fontFamily: 'Nunito',
-                                            fontSize: 18,
                                           ),
+                                          Text(
+                                            ingredient,
+                                            style: const TextStyle(
+                                              fontFamily: 'Nunito',
+                                              fontSize: 18,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ))
+                                .toList(),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                'Modo de Preparo',
+                                style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            ...meal.steps
+                                .asMap()
+                                .keys
+                                .toList()
+                                .map((index) => Container(
+                                      width: 300,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Text(
+                                        '${index + 1}. ${meal.steps[index]}',
+                                        maxLines: 2,
+                                        style: const TextStyle(
+                                          fontFamily: 'Nunito',
+                                          fontSize: 18,
                                         ),
-                                      ))
-                                  .toList(),
-                              const SizedBox(
-                                height: 20,
-                              )
-                            ],
-                          ),
+                                      ),
+                                    ))
+                                .toList(),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
                         ),
                       ),
                     ),

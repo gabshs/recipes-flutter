@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/data/dummy_data.dart';
+import 'package:recipes/models/meal.dart';
 import 'package:recipes/screens/category_meals_screen.dart';
 import 'package:recipes/screens/meal_detail_screen.dart';
 import 'package:recipes/screens/tab_screen.dart';
@@ -9,14 +10,31 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final meals = dummyMeals;
+  final List<Meal> _favoriteMeals = [];
+
+  void _toggleFavoriteMeals(Meal meal) {
+    setState(() {
+      _favoriteMeals.contains(meal)
+          ? _favoriteMeals.remove(meal)
+          : _favoriteMeals.add(meal);
+    });
+  }
+
+  bool _isFavoriteMeal(Meal meal) {
+    return _favoriteMeals.contains(meal);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final meals = dummyMeals;
-
     return MaterialApp(
       title: 'Flutter Recipes',
       theme: ThemeData(
@@ -26,11 +44,14 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: AppRoutes.home,
       routes: {
-        AppRoutes.home: (_) => const TabScreen(),
+        AppRoutes.home: (_) => TabScreen(favoriteMeals: _favoriteMeals),
         AppRoutes.categoryMeals: (_) => CategoryMealsScreen(
               meals: meals,
             ),
-        AppRoutes.mealDetail: (_) => const MealDetailScreen()
+        AppRoutes.mealDetail: (_) => MealDetailScreen(
+              isFavoriteFood: _isFavoriteMeal,
+              onToggleFavorite: _toggleFavoriteMeals,
+            )
       },
     );
   }
