@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/components/main_drawer.dart';
 import 'package:recipes/models/meal.dart';
 import 'package:recipes/screens/categories_screen.dart';
 import 'package:recipes/screens/favorite_screen.dart';
@@ -39,28 +40,28 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        title: Text(_screens[_selectedIndex]["title"]),
-      ),
-      body: _screens[_selectedIndex]["screen"],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        iconSize: 24,
-        selectedItemColor: Colors.black,
-        onTap: _selectScreen,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: ''),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_outlined),
-            activeIcon: Icon(Icons.favorite),
-            label: '',
-          ),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
+          title: Text(_screens[_selectedIndex]["title"]),
+        ),
+        body: _screens[_selectedIndex]["screen"],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          iconSize: 24,
+          selectedItemColor: Colors.black,
+          onTap: _selectScreen,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: ''),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_outlined),
+              activeIcon: Icon(Icons.favorite),
+              label: '',
+            ),
+          ],
+        ),
+        drawer: const MainDrawer());
   }
 }
