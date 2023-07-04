@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/data/dummy_data.dart';
 import 'package:recipes/models/meal.dart';
+import 'package:recipes/models/settings.dart';
 import 'package:recipes/screens/category_meals_screen.dart';
 import 'package:recipes/screens/meal_detail_screen.dart';
+import 'package:recipes/screens/settings_screen.dart';
 import 'package:recipes/screens/tab_screen.dart';
 import 'package:recipes/utils/app_routes.dart';
 
@@ -18,7 +20,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final meals = dummyMeals;
+  Settings _settings = Settings();
+  List<Meal> _availableMeals = dummyMeals;
   final List<Meal> _favoriteMeals = [];
 
   void _toggleFavoriteMeals(Meal meal) {
@@ -31,6 +34,22 @@ class _MyAppState extends State<MyApp> {
 
   bool _isFavoriteMeal(Meal meal) {
     return _favoriteMeals.contains(meal);
+  }
+
+  void _filterMeals(Settings settings) {
+    print(settings);
+    _settings = settings;
+    _availableMeals = dummyMeals.where((meal) {
+      final filterGlutten = settings.isGlutenFree && !meal.isGlutenFree;
+      final filterLactose = settings.isLactoseFree && !meal.isLactoseFree;
+      final filterVegan = settings.isVegan && !meal.isVegan;
+      final filterVegetarian = settings.isVegetarian && !meal.isVegetarian;
+
+      return !filterGlutten &&
+          !filterLactose &&
+          !filterVegan &&
+          !filterVegetarian;
+    }).toList();
   }
 
   @override
@@ -46,11 +65,15 @@ class _MyAppState extends State<MyApp> {
       routes: {
         AppRoutes.home: (_) => TabScreen(favoriteMeals: _favoriteMeals),
         AppRoutes.categoryMeals: (_) => CategoryMealsScreen(
-              meals: meals,
+              meals: _availableMeals,
             ),
         AppRoutes.mealDetail: (_) => MealDetailScreen(
               isFavoriteFood: _isFavoriteMeal,
               onToggleFavorite: _toggleFavoriteMeals,
+            ),
+        AppRoutes.settings: (_) => SettingsScreen(
+              settings: _settings,
+              onSettingsChanged: _filterMeals,
             )
       },
     );
