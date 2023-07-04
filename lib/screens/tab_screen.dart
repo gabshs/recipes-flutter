@@ -56,6 +56,7 @@ class _TabScreenState extends State<TabScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: ''),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border_outlined),
+            activeIcon: Icon(Icons.favorite),
             label: '',
           ),
         ],
